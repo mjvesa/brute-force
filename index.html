@@ -1,0 +1,291 @@
+<html>
+  <head>
+    <style>
+      .panels {
+        display: flex;
+        justify-content: space-between;
+      }
+      .container {
+        width: 600px;
+        height: 400px;
+        border: solid 1px black;
+        overflow: hidden;
+        user-select: none;
+      }
+      
+      
+      #css-props {
+        width: 600px;
+        height: 400px;
+        border: solid 1px black;
+        white-space: pre;
+      }
+      
+
+      
+      .drag-handle {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background-color: red;
+      }
+      
+      .block {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        border: solid 1px black;
+        background-color: green;
+        font-size: 40px;
+        color: white;
+      }
+      
+     .flex-container {
+        display: flex;
+        width: 600px;
+        height: 400px;
+        border: solid 1px black;
+        overflow: hidden;
+      }
+
+      
+      .flex-block {
+        min-width: 50px;
+        min-height: 50px;
+        border: solid 1px black;
+        background-color: blue;
+        font-size: 40px;
+        color: white;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="panels">
+      <div class="container" onmousemove="mouse_moved(event)" onmouseup="block_unclicked(event)">
+        <div class="block" id="b1" onmousedown="block_clicked(event)" 
+                          onmouseover="place_drag_handles(event)">1</div>
+        <div class="block"  id="b2" onmousedown="block_clicked(event)"
+                          onmouseover="place_drag_handles(event)">2</div>
+        <div class="block"  id="b3" onmousedown="block_clicked(event)"
+                          onmouseover="place_drag_handles(event)">3</div>
+        <div id="nw-drag-handle" class="drag-handle" onmousedown="block_clicked(event)"></div>
+        <div id="ne-drag-handle" class="drag-handle" onmousedown="block_clicked(event)"></div>
+        <div id="se-drag-handle" class="drag-handle" onmousedown="block_clicked(event)"></div>
+        <div id="sw-drag-handle" class="drag-handle" onmousedown="block_clicked(event)"></div>
+      </div>
+      
+      <div class="flex-container">
+        <div class="flex-block" id="fb1">1</div>
+        <div class="flex-block" id="fb2">2</div>
+        <div class="flex-block" id="fb3">3</div>
+      </div>
+
+      <div id="css-props">
+      </div>
+
+
+    
+    </div>
+    <button onclick="flex_box(event)">Flex Box Me</button>
+    <script>
+    
+    let current_rect;
+    
+    const place_drag_handles = event => {
+      const el = event.target;
+      current_rect = el;
+      let nw = document.getElementById("nw-drag-handle");
+      let ne = document.getElementById("ne-drag-handle");
+      let se = document.getElementById("se-drag-handle");
+      let sw = document.getElementById("sw-drag-handle");
+      nw.style.left = el.offsetLeft - 10 +  "px";
+      nw.style.top = el.offsetTop - 10 + "px";
+      ne.style.left = el.offsetLeft+el.offsetWidth - 10 + "px";
+      ne.style.top = el.offsetTop - 10 + "px";
+      se.style.left = el.offsetLeft + el.offsetWidth - 10 + "px";
+      se.style.top = el.offsetTop + el.offsetHeight - 10 + "px";
+      sw.style.left = el.offsetLeft - 10 + "px";
+      sw.style.top = el.offsetTop + el.offsetHeight - 10 + "px";
+      console.log('placed '  + el);
+      event.stopPropagation();
+    }
+    
+    
+    const flexboxProps = [
+    //    ["flex"], "This is the shorthand for flex-grow, flex-shrink and flex-basis combined.", do we need it?
+    //["flex-grow", ["0","1","auto"]],
+    //["flex-shrink", ["0","1","auto"]],
+//  ["flex-basis", ["50px", "100px", "150px"]],
+    ["flex-flow",  ["flex-direction", "flex-wrap"]],
+    ["flex-direction", ["row", "row-reverse", "column", "column-reverse"]],
+   // ["flex-wrap",  ["nowrap", "wrap", "wrap-reverse"]],
+    ["justify-content", ["flex-start", "flex-end", "center", "space-between", "space-around","space-evenly", "start", "end","left", "right"]],
+    ["align-items", ["stretch", "center", "flex-start", "flex-end", "baseline", "initial", "inherit"]],
+     ["align-content", ["stretch", "center", "flex-start", "flex-end", "space-between", "space-around", "initial", "inherit"]]
+    //["align-content", ["stretch", "center"]]
+   // ["align-self", ["auto", "flex-start", "flex-end", "center", "baseline", "stretch"]],
+//    ["order", "number"]
+  ];
+
+    
+      let target;
+      let block_clicked = event => {
+        target = event.target;
+      }
+      
+      let block_unclicked = event => {
+       target = undefined;
+        console.log('unlick');
+      }
+      
+      let mouse_moved = event => {
+        if (target) {
+
+           let nw = document.getElementById("nw-drag-handle");
+           let ne = document.getElementById("ne-drag-handle");
+           let se = document.getElementById("se-drag-handle");
+           let sw = document.getElementById("sw-drag-handle");
+           
+           let moved_handle = false;
+           const el = event.target;
+           if (el === nw) {
+             console.log('nw');
+             el.style.left = event.clientX - 10 + "px";
+             el.style.top = event.clientY - 10 + "px";
+             sw.style.left = event.clientX - 10 + "px";
+             ne.style.top = event.clientY - 10 + "px";
+             moved_handle = true;
+           }
+           if (el === ne) {
+             console.log('ne');
+             el.style.left = event.clientX - 10 + "px";
+             el.style.top = event.clientY - 10 + "px";
+             se.style.left = event.clientX - 10 + "px";
+             nw.style.top = event.clientY - 10 + "px";
+             moved_handle = true;
+           }
+           if (el === se) {
+             console.log('se');
+             el.style.left = event.clientX - 10 + "px";
+             el.style.top = event.clientY - 10 + "px";
+             ne.style.left = event.clientX - 10 + "px";
+             sw.style.top = event.clientY - 10 + "px";
+             moved_handle = true;
+           }
+           if (el === sw) {
+             console.log('sw');
+             el.style.left = event.clientX - 10 + "px";
+             el.style.top = event.clientY - 10 + "px";
+             nw.style.left = event.clientX - 10 + "px";
+             se.style.top = event.clientY - 10 + "px";
+             moved_handle = true;
+           } 
+
+           if (moved_handle) {
+            current_rect.style.left = nw.offsetLeft + 10 + "px";
+            current_rect.style.top = nw.offsetTop + 10 + "px";
+            current_rect.style.width = se.offsetLeft - nw.offsetLeft  + "px";
+            current_rect.style.height = se.offsetTop - nw.offsetTop - 10 + "px";
+          }
+            target.style.left = target.offsetLeft + event.movementX  + "px";
+            target.style.top = target.offsetTop + event.movementY + "px";
+        }
+      }
+      
+      
+      const get_pos = (parentEl,id) => {
+        const el = document.getElementById(id);
+        
+        return [el.offsetLeft - parentEl.offsetLeft, 
+                el.offsetTop - parentEl.offsetTop,
+                el.offsetWidth,
+                el.offsetHeight];
+      }
+      
+      const calc_distance = (p1,p2) => {
+        return Math.sqrt((p1[0]-p2[0])*(p1[0]-p2[0]) + (p1[1]-p2[1])*(p1[1]-p2[1])+ (p1[2]-p2[2])*(p1[2]-p2[2]) + (p1[3]-p2[3])*(p1[3]-p2[3]));
+      }
+      
+      const flex_box = event => {
+        const flex_container = document.getElementsByClassName("flex-container")[0];
+        const container = document.getElementsByClassName("container")[0];
+        const positions = [];
+        positions.push(get_pos(container, "b1"));
+        positions.push(get_pos(container, "b2"));
+        positions.push(get_pos(container, "b3"));
+        
+        
+        const indexes = [];
+        let total = 1;
+        for (let i=0;i<5;i++) {
+          indexes[i]=0;
+          console.log("jee " + flexboxProps[i][1].length);
+          total *=flexboxProps[i][1].length;
+        }
+        console.log("Total combination count: " + total);
+        
+        let running = true;
+        let rounds = 0;
+        let best;
+        let best_distance = 100000;
+        do{
+          
+          for (let i=0;i<5;i++) {
+            flex_container.style[flexboxProps[i][0]] = flexboxProps[i][1][indexes[i]];
+          } 
+          
+         const fpositions = [];
+         fpositions.push(get_pos(flex_container, "fb1"));
+         fpositions.push(get_pos(flex_container,"fb2"));
+         fpositions.push(get_pos(flex_container,"fb3"));
+
+          let distance = calc_distance(fpositions[0],positions[0]);
+              distance += calc_distance(fpositions[1],positions[1]);
+              distance += calc_distance(fpositions[2],positions[2]);
+              
+         if (distance < best_distance) {
+            best = indexes.slice();
+            best_distance = distance;
+            console.log("best disntance: " + distance);
+         }
+          
+          // TODO compare positions, make a copy of the best values
+          
+          let current_index = 0;
+          let adding_indexes = true;
+          do{
+            indexes[current_index]++;
+            if (indexes[current_index] === flexboxProps[current_index][1].length) {
+              indexes[current_index]=0;
+              current_index++;
+              if (current_index === flexboxProps.length) {
+                running = false;
+                adding_indexes = false;
+              }
+            } else {
+              adding_indexes = false;
+            }
+          } while (adding_indexes);
+          rounds++;
+        } while(running);
+        
+        console.log("Total rounds: " + rounds);
+        
+        const css_props = document.getElementById("css-props");
+        let css_prop_string = "";
+        
+        for (let i=0;i<5;i++) {
+            flex_container.style[flexboxProps[i][0]] = flexboxProps[i][1][best[i]];
+            css_prop_string = css_prop_string + `${flexboxProps[i][0]}: ${flexboxProps[i][1][best[i]]};\n`
+        } 
+        css_props.textContent = css_prop_string;
+        console.log(css_prop_string);
+
+
+      }
+      
+        
+    </script>
+  </body>
+</html>

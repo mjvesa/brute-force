@@ -173,20 +173,12 @@
     
     
     const flexboxProps = [
-    //    ["flex"], "This is the shorthand for flex-grow, flex-shrink and flex-basis combined.", do we need it?
-    //["flex-grow", ["0","1","auto"]],
-    //["flex-shrink", ["0","1","auto"]],
-//  ["flex-basis", ["50px", "100px", "150px"]],
-    ["flex-flow",  ["flex-direction", "flex-wrap"]],
     ["flex-direction", ["row", "row-reverse", "column", "column-reverse"]],
     ["flex-wrap",  ["nowrap", "wrap", "wrap-reverse"]],
     ["justify-content", ["flex-start", "flex-end", "center", "space-between", "space-around","space-evenly", "start", "end","left", "right"]],
     ["align-items", ["stretch", "center", "flex-start", "flex-end", "baseline", "initial", "inherit"]],
-     ["align-content", ["stretch", "center", "flex-start", "flex-end", "space-between", "space-around", "initial", "inherit"]]
-    //["align-content", ["stretch", "center"]]
-   // ["align-self", ["auto", "flex-start", "flex-end", "center", "baseline", "stretch"]],
-//    ["order", "number"]
-  ];
+    ["align-content", ["stretch", "center", "flex-start", "flex-end",
+        "space-between", "space-around", "initial", "inherit"]]];
 
     
       let target;
@@ -288,7 +280,7 @@
         
         const indexes = [];
         let total = 1;
-        for (let i=0;i<6;i++) {
+        for (let i=0;i<5;i++) {
           indexes[i]=0;
           total *=flexboxProps[i][1].length;
         }
@@ -299,7 +291,7 @@
         let best_distance = 100000;
         do{
           
-          for (let i=0;i<6;i++) {
+          for (let i=0;i<5;i++) {
             flex_container.style[flexboxProps[i][0]] = flexboxProps[i][1][indexes[i]];
           } 
           
@@ -340,7 +332,7 @@
         const css_props = document.getElementById("css-props");
         let css_prop_string = "";
         
-        for (let i=0;i<6;i++) {
+        for (let i=0;i<5;i++) {
             flex_container.style[flexboxProps[i][0]] = flexboxProps[i][1][best[i]];
             css_prop_string = css_prop_string + `${flexboxProps[i][0]}: ${flexboxProps[i][1][best[i]]};\n`
         } 

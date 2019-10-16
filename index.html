@@ -27,8 +27,8 @@
       
       .drag-handle {
         position: absolute;
-        width: 20px;
-        height: 20px;
+        width: 30px;
+        height: 30px;
         z-index: 3;
       }
       
@@ -146,14 +146,14 @@
         let ne = document.getElementById("ne-drag-handle");
         let se = document.getElementById("se-drag-handle");
         let sw = document.getElementById("sw-drag-handle");
-        nw.style.left = el.offsetLeft - 10 +  "px";
-        nw.style.top = el.offsetTop - 10 + "px";
-        ne.style.left = el.offsetLeft+el.offsetWidth - 10 + "px";
-        ne.style.top = el.offsetTop - 10 + "px";
-        se.style.left = el.offsetLeft + el.offsetWidth - 10 + "px";
-        se.style.top = el.offsetTop + el.offsetHeight - 10 + "px";
-        sw.style.left = el.offsetLeft - 10 + "px";
-        sw.style.top = el.offsetTop + el.offsetHeight - 10 + "px";
+        nw.style.left = el.offsetLeft - 15 +  "px";
+        nw.style.top = el.offsetTop - 15 + "px";
+        ne.style.left = el.offsetLeft+el.offsetWidth - 15 + "px";
+        ne.style.top = el.offsetTop - 15 + "px";
+        se.style.left = el.offsetLeft + el.offsetWidth - 15 + "px";
+        se.style.top = el.offsetTop + el.offsetHeight - 15 + "px";
+        sw.style.left = el.offsetLeft - 15 + "px";
+        sw.style.top = el.offsetTop + el.offsetHeight - 15 + "px";
         console.log('placed '  + el);
       event.stopPropagation();
     }
@@ -161,6 +161,8 @@
     const drag_handle_mouse_over = event => {
       event.stopPropagation();
     }
+    
+    
     
     const flexboxProps = [
     //    ["flex"], "This is the shorthand for flex-grow, flex-shrink and flex-basis combined.", do we need it?
@@ -200,31 +202,31 @@
            let moved_handle = false;
            const el = event.target;
            if (el === nw) {
-             el.style.left = event.clientX - 10 + "px";
-             el.style.top = event.clientY - 10 + "px";
-             sw.style.left = event.clientX - 10 + "px";
-             ne.style.top = event.clientY - 10 + "px";
+             el.style.left = event.clientX - 15 + "px";
+             el.style.top = event.clientY - 15 + "px";
+             sw.style.left = event.clientX - 15 + "px";
+             ne.style.top = event.clientY - 15 + "px";
              moved_handle = true;
            } else
            if (el === ne) {
-             el.style.left = event.clientX - 10 + "px";
-             el.style.top = event.clientY - 10 + "px";
-             se.style.left = event.clientX - 10 + "px";
-             nw.style.top = event.clientY - 10 + "px";
+             el.style.left = event.clientX - 15 + "px";
+             el.style.top = event.clientY - 15 + "px";
+             se.style.left = event.clientX - 15 + "px";
+             nw.style.top = event.clientY - 15 + "px";
              moved_handle = true;
            } else
            if (el === se) {
-             el.style.left = event.clientX - 10 + "px";
-             el.style.top = event.clientY - 10 + "px";
-             ne.style.left = event.clientX - 10 + "px";
-             sw.style.top = event.clientY - 10 + "px";
+             el.style.left = event.clientX - 15 + "px";
+             el.style.top = event.clientY - 15 + "px";
+             ne.style.left = event.clientX - 15 + "px";
+             sw.style.top = event.clientY - 15 + "px";
              moved_handle = true;
            } else
            if (el === sw) {
-             el.style.left = event.clientX - 10 + "px";
-             el.style.top = event.clientY - 10 + "px";
-             nw.style.left = event.clientX - 10 + "px";
-             se.style.top = event.clientY - 10 + "px";
+             el.style.left = event.clientX - 15 + "px";
+             el.style.top = event.clientY - 15 + "px";
+             nw.style.left = event.clientX - 15 + "px";
+             se.style.top = event.clientY - 15 + "px";
              moved_handle = true;
            } else {
        
@@ -233,19 +235,19 @@
           }
           
           if (moved_handle) {
-            current_rect.style.left = nw.offsetLeft + 10 + "px";
-            current_rect.style.top = nw.offsetTop + 10 + "px";
+            current_rect.style.left = nw.offsetLeft + 15 + "px";
+            current_rect.style.top = nw.offsetTop + 15 + "px";
             current_rect.style.width = se.offsetLeft - nw.offsetLeft  + "px";
             current_rect.style.height = se.offsetTop - nw.offsetTop + "px";
           } else {
-            nw.style.left = current_rect.offsetLeft - 10 +  "px";
-            nw.style.top = current_rect.offsetTop - 10 + "px";
-            ne.style.left = current_rect.offsetLeft+current_rect.offsetWidth - 10 + "px";
-            ne.style.top = current_rect.offsetTop - 10 + "px";
-            se.style.left = current_rect.offsetLeft + current_rect.offsetWidth - 10 + "px";
-            se.style.top = current_rect.offsetTop + current_rect.offsetHeight - 10 + "px";
-            sw.style.left = current_rect.offsetLeft - 10 + "px";
-            sw.style.top = current_rect.offsetTop + current_rect.offsetHeight - 10 + "px";
+            nw.style.left = current_rect.offsetLeft - 15 +  "px";
+            nw.style.top = current_rect.offsetTop - 15 + "px";
+            ne.style.left = current_rect.offsetLeft+current_rect.offsetWidth - 15 + "px";
+            ne.style.top = current_rect.offsetTop - 15 + "px";
+            se.style.left = current_rect.offsetLeft + current_rect.offsetWidth - 15 + "px";
+            se.style.top = current_rect.offsetTop + current_rect.offsetHeight - 15 + "px";
+            sw.style.left = current_rect.offsetLeft - 15 + "px";
+            sw.style.top = current_rect.offsetTop + current_rect.offsetHeight - 15 + "px";
 
           }
 

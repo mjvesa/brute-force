@@ -29,7 +29,6 @@
         position: absolute;
         width: 20px;
         height: 20px;
-        background-color: red;
         z-index: 3;
       }
       
@@ -42,6 +41,7 @@
         font-size: 40px;
         color: white;
         z-index: 2;
+        cursor: grab;
       }
       
      #flex-container {
@@ -60,6 +60,22 @@
         background-color: blue;
         font-size: 40px;
         color: white;
+      }
+      
+      #nw-drag-handle {
+        cursor: nw-resize;
+      }
+
+      #ne-drag-handle {
+        cursor: ne-resize;
+      }
+
+      #se-drag-handle {
+        cursor: se-resize;
+      }
+
+      #sw-drag-handle {
+        cursor: sw-resize;
       }
 
     </style>

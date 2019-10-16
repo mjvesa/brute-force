@@ -22,7 +22,6 @@
         border: solid 1px black;
         white-space: pre;
       }
-      
 
       
       .drag-handle {
@@ -30,6 +29,7 @@
         width: 30px;
         height: 30px;
         z-index: 3;
+        background-color: red
       }
       
       .block {
@@ -83,7 +83,8 @@
   <body>
     <template id="regular-block-template">
         <div class="block" onmousedown="block_clicked(event)" 
-                           onmouseover="place_drag_handles(event)">a</div>
+                           onmouseover="place_drag_handles(event)"
+                           onmouseup="clear_drags()">a</div>
     </template>
     
     <template id="flex-block-template">
@@ -93,13 +94,13 @@
     <div class="panels">
       <div id="container" onmousemove="mouse_moved(event)" 
                           onmouseup="block_unclicked(event)">
-        <div id="nw-drag-handle" class="drag-handle" onmousedown="block_clicked(event)"
+        <div id="nw-drag-handle" class="drag-handle" onmousedown="block_clicked(event, 'nw')"
           onmouseover="drag_handle_mouse_over(event)"></div>
-        <div id="ne-drag-handle" class="drag-handle" onmousedown="block_clicked(event)"
+        <div id="ne-drag-handle" class="drag-handle" onmousedown="block_clicked(event, 'ne')"
           onmouseover="drag_handle_mouse_over(event)"></div>
-        <div id="se-drag-handle" class="drag-handle" onmousedown="block_clicked(event)"
+        <div id="se-drag-handle" class="drag-handle" onmousedown="block_clicked(event, 'se')"
           onmouseover="drag_handle_mouse_over(event)"></div>
-        <div id="sw-drag-handle" class="drag-handle" onmousedown="block_clicked(event)"
+        <div id="sw-drag-handle" class="drag-handle" onmousedown="block_clicked(event, 'sw')"
           onmouseover="drag_handle_mouse_over(event)"></div>
       </div>
       
@@ -116,6 +117,8 @@
     </span>
     <script>
     
+    let current_rect;
+    let current_drag_handle;
     let block_count = 0;
     const blocks = [];
     const flexblocks = [];
@@ -134,10 +137,17 @@
       flexblocks.push(flex_block);
     }
     
+    const start_drag_from_handle = handle => {
+      current_drag_handle = handle;
+    }
+    
+    const clear_drags = () => {
+      current_drag_handle = undefined;
+    }
+    
     add_block();
     add_block();
     
-    let current_rect;
     
     const place_drag_handles = event => {
         const el = event.target;
@@ -154,7 +164,6 @@
         se.style.top = el.offsetTop + el.offsetHeight - 15 + "px";
         sw.style.left = el.offsetLeft - 15 + "px";
         sw.style.top = el.offsetTop + el.offsetHeight - 15 + "px";
-        console.log('placed '  + el);
       event.stopPropagation();
     }
     
@@ -182,13 +191,13 @@
 
     
       let target;
-      let block_clicked = event => {
+      let block_clicked = (event, drag_handle) => {
         target = event.target;
+        current_drag_handle = drag_handle;
       }
       
       let block_unclicked = event => {
        target = undefined;
-        console.log('unlick');
       }
       
       let mouse_moved = event => {
@@ -201,30 +210,30 @@
            
            let moved_handle = false;
            const el = event.target;
-           if (el === nw) {
-             el.style.left = event.clientX - 15 + "px";
-             el.style.top = event.clientY - 15 + "px";
+           if (current_drag_handle === "nw") {
+             nw.style.left = event.clientX - 15 + "px";
+             nw.style.top = event.clientY - 15 + "px";
              sw.style.left = event.clientX - 15 + "px";
              ne.style.top = event.clientY - 15 + "px";
              moved_handle = true;
            } else
-           if (el === ne) {
-             el.style.left = event.clientX - 15 + "px";
-             el.style.top = event.clientY - 15 + "px";
+           if (current_drag_handle === "ne") {
+             ne.style.left = event.clientX - 15 + "px";
+             ne.style.top = event.clientY - 15 + "px";
              se.style.left = event.clientX - 15 + "px";
              nw.style.top = event.clientY - 15 + "px";
              moved_handle = true;
            } else
-           if (el === se) {
-             el.style.left = event.clientX - 15 + "px";
-             el.style.top = event.clientY - 15 + "px";
+           if (current_drag_handle === "se") {
+             se.style.left = event.clientX - 15 + "px";
+             se.style.top = event.clientY - 15 + "px";
              ne.style.left = event.clientX - 15 + "px";
              sw.style.top = event.clientY - 15 + "px";
              moved_handle = true;
            } else
-           if (el === sw) {
-             el.style.left = event.clientX - 15 + "px";
-             el.style.top = event.clientY - 15 + "px";
+           if (current_drag_handle === "sw") {
+             sw.style.left = event.clientX - 15 + "px";
+             sw.style.top = event.clientY - 15 + "px";
              nw.style.left = event.clientX - 15 + "px";
              se.style.top = event.clientY - 15 + "px";
              moved_handle = true;
@@ -282,10 +291,8 @@
         let total = 1;
         for (let i=0;i<6;i++) {
           indexes[i]=0;
-          console.log("jee " + flexboxProps[i][1].length);
           total *=flexboxProps[i][1].length;
         }
-        console.log("Total combination count: " + total);
         
         let running = true;
         let rounds = 0;
@@ -311,7 +318,6 @@
          if (distance < best_distance) {
             best = indexes.slice();
             best_distance = distance;
-            console.log("best disntance: " + distance);
          }
           
         let current_index = 0;
@@ -332,8 +338,6 @@
           rounds++;
         } while(running);
         
-        console.log("Total rounds: " + rounds);
-        
         const css_props = document.getElementById("css-props");
         let css_prop_string = "";
         
@@ -342,7 +346,6 @@
             css_prop_string = css_prop_string + `${flexboxProps[i][0]}: ${flexboxProps[i][1][best[i]]};\n`
         } 
         css_props.textContent = css_prop_string;
-        console.log(css_prop_string);
 
       }
         

@@ -1,5 +1,5 @@
 {
-  "name": "brute-force",
+  "name": "@mjvesa/brute-force",
   "version": "0.1.0",
   "description": "A tool for creating flex box container layouts",
   "main": "brute-force.js",

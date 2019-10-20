@@ -1,0 +1,22 @@
+{
+  "name": "brute-force",
+  "version": "0.1.0",
+  "description": "A tool for creating flex box container layouts",
+  "main": "brute-force.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mjvesa/brute-force.git"
+  },
+  "keywords": [
+    "flexbox"
+  ],
+  "author": "Matti Vesa",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mjvesa/brute-force/issues"
+  },
+  "homepage": "https://github.com/mjvesa/brute-force#readme"
+}

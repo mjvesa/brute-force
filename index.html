@@ -4,10 +4,13 @@
   </head>
   <body>
     <brute-force id="my-brute"></brute-force>
+    <br>
+    <textarea id="result" cols="40" rows="6"></textarea>
     <script>
       const el = document.getElementById('my-brute');
       el.flexboxCssUpdate = str => {
-        console.log(str);
+        const el = document.getElementById('result');
+        el.value = str;
       }
     </script>
   </body>

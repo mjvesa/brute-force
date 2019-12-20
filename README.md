@@ -2,6 +2,8 @@ Brute force
 ===========
 Draw rects, press button, get flexbox CSS properties
 
+[Use brute here](https://mjvesa.github.io/brute-force/)
+
 
 Usage
 -----
